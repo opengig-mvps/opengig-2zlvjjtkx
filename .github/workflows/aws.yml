@@ -76,6 +76,7 @@ jobs:
       - name: Set Deployment Status to Failed
         if: failure()
         run: |
+          cat .env.ci
           curl -X PATCH "https://tools-backend.dev.opengig.work/deployment/${{ github.event.repository.name }}" \
             -H "Content-Type: application/json" \
             -d '{"status": "failed"}'

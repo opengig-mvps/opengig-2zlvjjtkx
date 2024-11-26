@@ -19,7 +19,8 @@ jobs:
       - name: Fetch Environment Variables from Dotenv Vault
         run: |
           npm install -g dotenv-vault@latest
-          dotenv-vault pull staging
+          export DOTENV_VAULT_KEY=${{ secrets.DOTENV_KEY }}
+          dotenv-vault pull staging --ci
         env:
           DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
       

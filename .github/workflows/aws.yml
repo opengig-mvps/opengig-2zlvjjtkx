@@ -19,6 +19,7 @@ jobs:
       - name: Fetch Environment Variables from Dotenv Vault
         run: |
           npm install -g dotenv-vault@latest
+          echo 'DOTENV_ME="${{ secrets.DOTENV_ME }}"' > .env.me
           dotenv-vault pull ci --dotenvMe=${{ secrets.DOTENV_ME }}
 
       - name: Combine Environment Variables

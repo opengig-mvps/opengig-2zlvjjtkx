@@ -18,7 +18,8 @@ jobs:
       
       - name: Fetch Environment Variables from Dotenv Vault
         run: |
-          npx dotenv-vault@latest pull staging
+          npm install -g dotenv-vault@latest
+          dotenv-vault pull staging
         env:
           DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
       

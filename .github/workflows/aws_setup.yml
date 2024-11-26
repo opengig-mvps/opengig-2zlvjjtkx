@@ -92,7 +92,8 @@ jobs:
           }')
 
           DNS_NAME=$(echo "$RESPONSE" | jq ".result.name")
+          URL="https://$DNS_NAME"
           echo "DNS Name:- $DNS_NAME"
           curl -X PATCH "https://tools-backend.dev.opengig.work/deployment/${{ github.event.repository.name }}" \
             -H "Content-Type: application/json" \
-            -d "{\"status\": \"not_started\",\"url\":\"https://$DNS_NAME\"}"
+            -d '{"status": "not_started","url":"$URL"}"

@@ -20,10 +20,11 @@ jobs:
         run: |
           npm install -g dotenv-vault@latest
           dotenv-vault login ${{ secrets.DOTENV_ME }}
+          cat .env.vault
           
       - name: Combine Environment Variables
         run: |
-          dotenv-vault pull ci -m ${{ secrets.DOTENV_ME }}
+          dotenv-vault pull ci
           cat .env
           # First, copy staging env to main .env file
           cp .env.ci .env

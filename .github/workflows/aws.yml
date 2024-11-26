@@ -21,7 +21,6 @@ jobs:
           npm install -g dotenv-vault@latest
           echo 'DOTENV_ME="${{ secrets.DOTENV_ME }}"' > .env.me
           cat .env.me
-          cat .env
           dotenv-vault pull ci -m ${{ secrets.DOTENV_ME }}
           cat .env
           

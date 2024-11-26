@@ -4,11 +4,10 @@ REPO=$(hostname)
 cd "$HOME/$REPO"
 git pull
 
-# Install and authenticate with dotenv-vault
-npm install -g dotenv-vault@latest
-dotenv-vault login "${DOTENV_ME}"
 
-dotenv-vault pull ci
+npx --yes dotenv-vault login "${DOTENV_ME}"
+
+npx --yes dotenv-vault pull ci
 
 cp .env.ci .env
 

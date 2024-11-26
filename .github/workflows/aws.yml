@@ -15,30 +15,6 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-      
-      - name: Fetch Environment Variables from Dotenv Vault
-        run: |
-          npm install -g dotenv-vault@latest
-          dotenv-vault login ${{ secrets.DOTENV_ME }}
-
-      - name: Combine Environment Variables
-        run: |
-          ls -la
-          cat .env.me
-          dotenv-vault pull
-          
-          cat .env
-          # First, copy staging env to main .env file
-          cp .env.ci .env
-          
-          # Then append dynamic variables
-          REPO_NAME="${{ github.event.repository.name }}"
-          echo "" >> .env
-          echo "# Dynamic Variables" >> .env
-          echo "DATABASE_URL=postgresql://opengig:Database2024!@opengigmvp.postgres.database.azure.com:5432/${REPO_NAME}?schema=public" >> .env
-          echo "POSTGRES_DB=${REPO_NAME}" >> .env
-          echo "NEXTAUTH_URL=https://${REPO_NAME}.opengig.work" >> .env
-          echo "APP_URL=https://${REPO_NAME}.opengig.work" >> .env
 
       - name: Set Deployment Status to In Progress
         run: |
@@ -70,7 +46,7 @@ jobs:
           echo "INSTANCE_IP: $INSTANCE_IP"
 
           # Deploying Now..!!
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/github ubuntu@${{ env.INSTANCE_IP }} 'bash -s' < ./deploy.sh
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/github ubuntu@${{ env.INSTANCE_IP }} 'bash -s' < ./deploy.sh "${{ secrets.DOTENV_ME }}"
           curl -X PATCH "https://tools-backend.dev.opengig.work/deployment/${{ github.event.repository.name }}" \
             -H "Content-Type: application/json" \
             -d '{"status": "success"}'

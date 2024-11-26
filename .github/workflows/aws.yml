@@ -16,6 +16,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       
+      - name: Fetch Environment Variables from Dotenv Vault
+        run: |
+          npx dotenv-vault@latest pull staging
+        env:
+          DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
+      
+      - name: Combine Environment Variables
+        run: |
+          # First, copy staging env to main .env file
+          cp .env.staging .env
+          
+          # Then append dynamic variables
+          REPO_NAME="${{ github.event.repository.name }}"
+          echo "" >> .env
+          echo "# Dynamic Variables" >> .env
+          echo "DATABASE_URL=postgresql://opengig:Database2024!@opengigmvp.postgres.database.azure.com:5432/${REPO_NAME}?schema=public" >> .env
+          echo "POSTGRES_DB=${REPO_NAME}" >> .env
+          echo "NEXTAUTH_URL=https://${REPO_NAME}.opengig.work" >> .env
+          echo "APP_URL=https://${REPO_NAME}.opengig.work" >> .env
+
       - name: Set Deployment Status to In Progress
         run: |
           curl -X PATCH "https://tools-backend.dev.opengig.work/deployment/${{ github.event.repository.name }}" \

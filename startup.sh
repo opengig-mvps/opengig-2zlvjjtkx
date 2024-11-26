@@ -4,6 +4,7 @@
 # Date: 28th Sept 2024
 
 VM_INSTANCE_NAME=$1
+GITHUB_TOKEN=$2
 export INSTANCE_NAME="$VM_INSTANCE_NAME"
 echo "export INSTANCE_NAME='$VM_INSTANCE_NAME'" >> ~/.bashrc
 sudo hostnamectl set-hostname $VM_INSTANCE_NAME
@@ -20,7 +21,7 @@ sudo apt install -y caddy apt-transport-https ca-certificates curl git build-ess
 
 sudo npm install -g pm2@latest
 
-git clone "https://tomarjatin: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@github.com/opengig/$REPO.git" "$HOME/$REPO"
+git clone "https://x-access-token:${GITHUB_TOKEN}@github.com/opengig-mvps/$REPO.git" "$HOME/$REPO"
 
 # SETUP CADDY
 CADDY_DOMAIN="${VM_INSTANCE_NAME}.opengig.work"

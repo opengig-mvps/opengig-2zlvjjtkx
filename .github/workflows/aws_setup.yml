@@ -74,7 +74,7 @@ jobs:
           echo "$INSTANCE_IP"
 
           # Connect and setup VM
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/github ubuntu@${{ env.INSTANCE_IP }} 'bash -s' < ./startup.sh "$INSTANCE_NAME"
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/github ubuntu@${{ env.INSTANCE_IP }} 'bash -s' < ./startup.sh "$INSTANCE_NAME" "${{ secrets.TOKEN_GITHUB }}"
       
       - name: Setup DNS on Cloudflare
         run: |

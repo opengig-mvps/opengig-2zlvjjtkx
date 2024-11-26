@@ -20,7 +20,9 @@ jobs:
         run: |
           npm install -g dotenv-vault@latest
           echo 'DOTENV_ME="${{ secrets.DOTENV_ME }}"' > .env.me
-          dotenv-vault pull ci --dotenvMe=${{ secrets.DOTENV_ME }}
+          ls -la
+          cat .env.me
+          dotenv-vault pull ci
 
       - name: Combine Environment Variables
         run: |

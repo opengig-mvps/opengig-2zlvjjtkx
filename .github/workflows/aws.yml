@@ -19,15 +19,12 @@ jobs:
       - name: Fetch Environment Variables from Dotenv Vault
         run: |
           npm install -g dotenv-vault@latest
-          export DOTENV_VAULT_KEY=${{ secrets.DOTENV_KEY }}
-          dotenv-vault pull staging --ci
-        env:
-          DOTENV_KEY: ${{ secrets.DOTENV_KEY }}
-      
+          dotenv-vault pull ci --dotenvMe=${{ secrets.DOTENV_ME }}
+
       - name: Combine Environment Variables
         run: |
           # First, copy staging env to main .env file
-          cp .env.staging .env
+          cp .env.ci .env
           
           # Then append dynamic variables
           REPO_NAME="${{ github.event.repository.name }}"

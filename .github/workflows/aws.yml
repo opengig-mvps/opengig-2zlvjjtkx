@@ -25,7 +25,8 @@ jobs:
         run: |
           ls -la
           cat .env.me
-          dotenv-vault pull ci
+          dotenv-vault pull
+          
           cat .env
           # First, copy staging env to main .env file
           cp .env.ci .env
@@ -76,7 +77,6 @@ jobs:
       - name: Set Deployment Status to Failed
         if: failure()
         run: |
-          cat .env.ci
           curl -X PATCH "https://tools-backend.dev.opengig.work/deployment/${{ github.event.repository.name }}" \
             -H "Content-Type: application/json" \
             -d '{"status": "failed"}'
